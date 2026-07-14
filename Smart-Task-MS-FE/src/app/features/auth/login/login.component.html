@@ -1,0 +1,44 @@
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-4">
+
+
+            <h3 class="mb-3">
+                Login
+            </h3>
+
+
+            <input class="form-control mb-3" placeholder="Email" [(ngModel)]="email">
+
+
+            <input type="password" class="form-control mb-3" placeholder="Password" [(ngModel)]="password">
+
+
+
+            <button class="btn btn-primary w-100" (click)="login()">
+
+                Login
+
+            </button>
+
+
+            <div class="text-end mt-2">
+
+                <span class="text-muted">
+                    Not registered?
+                </span>
+
+                <a routerLink="/register" class="ms-1">
+                    Register here
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

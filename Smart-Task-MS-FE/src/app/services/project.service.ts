@@ -1,0 +1,53 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProjectService {
+
+  private url = environment.apiUrl + '/projects';
+
+  constructor(private http: HttpClient) { }
+
+  getProjects() {
+
+    return this.http.get<any[]>(
+      this.url
+    );
+
+  }
+
+
+
+  createProject(data: any) {
+
+    return this.http.post(
+      this.url,
+      data
+    );
+
+  }
+
+
+
+  updateProject(id: number, data: any) {
+
+    return this.http.put(
+      `${this.url}/${id}`,
+      data
+    );
+
+  }
+
+
+
+  deleteProject(id: number) {
+
+    return this.http.delete(
+      `${this.url}/${id}`
+    );
+
+  }
+}

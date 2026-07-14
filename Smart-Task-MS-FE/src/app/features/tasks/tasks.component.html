@@ -1,0 +1,250 @@
+<h3>
+    Tasks
+</h3>
+
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+
+        <input class="form-control mb-2" placeholder="Task title" [(ngModel)]="title">
+
+
+
+        <textarea class="form-control mb-2" placeholder="Description" [(ngModel)]="description">
+</textarea>
+
+
+
+        <select class="form-select mb-2" [(ngModel)]="priority">
+
+
+            <option [ngValue]="1">
+                Low
+            </option>
+
+
+            <option [ngValue]="2">
+                Medium
+            </option>
+
+
+            <option [ngValue]="3">
+                High
+            </option>
+
+
+            <option [ngValue]="4">
+                Critical
+            </option>
+
+
+        </select>
+
+
+        <select class="form-select mb-2" [(ngModel)]="status">
+
+
+            <option [ngValue]="1">
+                Todo
+            </option>
+
+
+            <option [ngValue]="2">
+                Inprogress
+            </option>
+
+
+            <option [ngValue]="3">
+                Completed
+            </option>
+
+
+            <option [ngValue]="4">
+                Cancelled
+            </option>
+
+
+        </select>
+
+
+
+        <input type="date" class="form-control mb-2" [(ngModel)]="dueDate">
+
+
+
+        <!-- <button class="btn btn-primary" (click)="addTask()">
+
+            Add Task
+
+        </button> -->
+
+        <button class="btn btn-primary" (click)="saveTask()">
+
+            {{ editMode ? 'Update Task' : 'Add Task' }}
+
+        </button>
+
+
+        <button *ngIf="editMode" class="btn btn-secondary ms-2" (click)="cancelEdit()">
+
+            Cancel
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<table class="table table-bordered">
+
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Title
+            </th>
+
+
+            <th>
+                Priority
+            </th>
+
+
+            <th>
+                Status
+            </th>
+
+
+            <th>
+                Due Date
+            </th>
+
+
+            <th>
+                Action
+            </th>
+
+
+        </tr>
+
+    </thead>
+
+
+
+    <tbody>
+
+
+        <tr *ngFor="let task of tasks">
+
+
+            <td>
+
+                {{task.title}}
+
+            </td>
+
+
+
+            <td>
+
+                <span [ngSwitch]="task.priority">
+
+
+                    <span *ngSwitchCase="1">
+                        Low
+                    </span>
+
+
+                    <span *ngSwitchCase="2">
+                        Medium
+                    </span>
+
+
+                    <span *ngSwitchCase="3">
+                        High
+                    </span>
+
+
+                    <span *ngSwitchCase="4">
+                        Critical
+                    </span>
+
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span [ngSwitch]="task.status">
+
+
+                    <span *ngSwitchCase="1">
+                        Todo
+                    </span>
+
+
+                    <span *ngSwitchCase="2">
+                        In Progress
+                    </span>
+
+
+                    <span *ngSwitchCase="3">
+                        Completed
+                    </span>
+
+
+                    <span *ngSwitchCase="4">
+                        Cancelled
+                    </span>
+
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                {{task.dueDate | date}}
+
+            </td>
+
+
+
+
+            <td>
+
+                <button class="btn btn-warning btn-sm me-2" (click)="editTask(task)">
+
+                    Edit
+
+                </button>
+
+
+                <button class="btn btn-danger btn-sm" (click)="delete(task.id)">
+
+                    Delete
+
+                </button>
+
+
+            </td>
+
+
+        </tr>
+
+
+    </tbody>
+
+
+</table>

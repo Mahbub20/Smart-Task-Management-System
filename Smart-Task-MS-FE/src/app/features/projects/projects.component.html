@@ -1,0 +1,93 @@
+<h3>
+    Projects
+</h3>
+
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+
+        <input class="form-control mb-2" placeholder="Project Name" [(ngModel)]="name">
+
+
+        <textarea class="form-control mb-2" placeholder="Description" [(ngModel)]="description">
+</textarea>
+
+
+
+        <!-- <button class="btn btn-primary" (click)="save()">
+
+            Add Project
+
+        </button> -->
+
+        <button class="btn btn-primary" (click)="save()">
+
+            {{ editMode ? 'Update Project' : 'Add Project' }}
+
+        </button>
+
+
+        <button *ngIf="editMode" class="btn btn-secondary ms-2" (click)="cancelEdit()">
+
+            Cancel
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+
+<table class="table table-bordered">
+
+
+    <tr>
+
+        <th>Name</th>
+
+        <th>Description</th>
+
+        <th></th>
+
+    </tr>
+
+
+    <tr *ngFor="let p of projects" (click)="openTasks(p.id)" style="cursor:pointer">
+
+
+        <td>
+            {{p.name}}
+        </td>
+
+
+        <td>
+            {{p.description}}
+        </td>
+
+
+        <td>
+
+            <button class="btn btn-warning btn-sm me-2" (click)="editProject(p); $event.stopPropagation()">
+
+                Edit
+
+            </button>
+
+            <button class="btn btn-danger btn-sm" (click)="delete(p.id); $event.stopPropagation()">
+
+                Delete
+
+            </button>
+
+        </td>
+
+
+    </tr>
+
+
+</table>

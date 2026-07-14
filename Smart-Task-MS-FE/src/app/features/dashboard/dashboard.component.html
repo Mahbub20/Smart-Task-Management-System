@@ -1,0 +1,101 @@
+<h3 class="mb-4">
+    Dashboard
+</h3>
+
+
+
+<div class="row" *ngIf="dashboard">
+
+
+    <div class="col-md-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>
+                    Projects
+                </h6>
+
+                <h2>
+                    {{dashboard.totalProjects}}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>
+                    Tasks
+                </h6>
+
+                <h2>
+                    {{dashboard.totalTasks}}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="col-md-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>
+                    Completed
+                </h6>
+
+                <h2>
+                    {{dashboard.completedTasks}}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>
+                    Pending
+                </h6>
+
+                <h2>
+                    {{dashboard.pendingTasks}}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
