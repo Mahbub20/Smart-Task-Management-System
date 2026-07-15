@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { error } from 'console';
+import { ToastrService } from 'ngx-toastr';
 import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
@@ -8,6 +10,8 @@ import { ProjectService } from 'src/app/services/project.service';
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
+
+  deleteProjectId!: number;
 
   projects: any[] = [];
 
@@ -20,7 +24,7 @@ export class ProjectsComponent implements OnInit {
 
   selectedProjectId!: number;
 
-  constructor(private service: ProjectService, private router: Router) { }
+  constructor(private service: ProjectService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadProjects();
@@ -49,63 +53,146 @@ export class ProjectsComponent implements OnInit {
   }
 
   // save() {
-  //   this.service.createProject({
+
+  //   const data = {
 
   //     name: this.name,
 
   //     description: this.description
 
-  //   })
-  //     .subscribe(() => {
+  //   };
 
 
-  //       this.name = '';
+  //   if (this.editMode) {
 
-  //       this.description = '';
+  //     this.service.updateProject(
+  //       this.selectedProjectId,
+  //       data
+  //     )
+  //       .subscribe(() => {
 
-  //       this.loadProjects();
-  //     });
+  //         next: () => {
+  //           this.toastr.success(
+  //             'Project updated successfully.',
+  //             'Success'
+  //           );
 
+  //           this.resetForm();
+  //           this.loadProjects();
+  //         },
+
+  //           error: () => {
+  //             this.toastr.error(
+  //               'Update failed.',
+  //               'Error'
+  //             );
+  //           }
+  //       });
+
+
+  //   }
+  //   else {
+
+  //     this.service.createProject(data)
+  //       .subscribe(() => {
+
+  //         this.resetForm();
+
+  //         this.loadProjects();
+
+  //       });
+
+  //   }
 
   // }
 
   save() {
 
-    const data = {
+    if (!this.name.trim()) {
 
-      name: this.name,
+      this.toastr.warning(
+        'Project name is required.',
+        'Validation'
+      );
 
-      description: this.description
+      return;
 
-    };
+    }
 
+    if (!this.description.trim()) {
+
+      this.toastr.warning(
+        'Project description is required.',
+        'Validation'
+      );
+
+      return;
+
+    }
 
     if (this.editMode) {
 
-      this.service.updateProject(
-        this.selectedProjectId,
-        data
-      )
-        .subscribe(() => {
+      this.service.updateProject(this.selectedProjectId, {
+        name: this.name,
+        description: this.description
+      }).subscribe({
 
-          this.resetForm();
+        next: () => {
+
+          this.toastr.success(
+            'Project updated successfully.',
+            'Success'
+          );
 
           this.loadProjects();
 
-        });
+          this.cancelEdit();
 
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Update failed.',
+            'Error'
+          );
+
+        }
+
+      });
 
     }
     else {
 
-      this.service.createProject(data)
-        .subscribe(() => {
+      this.service.createProject({
+        name: this.name,
+        description: this.description
+      }).subscribe({
 
-          this.resetForm();
+        next: () => {
+
+          this.toastr.success(
+            'Project created successfully.',
+            'Success'
+          );
 
           this.loadProjects();
 
-        });
+          this.name = '';
+          this.description = '';
+
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Creation failed.',
+            'Error'
+          );
+
+        }
+
+      });
 
     }
 
@@ -151,6 +238,35 @@ export class ProjectsComponent implements OnInit {
         this.loadProjects();
 
       });
+  }
+
+  confirmDelete() {
+
+    this.service.deleteProject(this.selectedProjectId)
+      .subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Project deleted successfully.',
+            'Success'
+          );
+
+          this.loadProjects();
+
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Failed to delete project.',
+            'Error'
+          );
+
+        }
+
+      });
+
   }
 
 }

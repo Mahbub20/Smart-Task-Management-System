@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -29,7 +30,7 @@ export class TasksComponent implements OnInit {
 
   selectedTaskId!: number;
 
-  constructor(private route: ActivatedRoute, private service: TaskService) { }
+  constructor(private route: ActivatedRoute, private service: TaskService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
