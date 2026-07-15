@@ -96,108 +96,181 @@ export class TasksComponent implements OnInit {
   // }
 
 
+  // saveTask() {
+
+
+  //   const data = {
+
+  //     title: this.title,
+
+  //     description: this.description,
+
+  //     priority: this.priority,
+
+  //     status: this.status,
+
+  //     dueDate: this.dueDate
+
+  //   };
+
+
+  //   if (this.editMode) {
+
+  //     this.service.updateTask(
+  //       this.selectedTaskId,
+  //       data
+  //     )
+  //       .subscribe(() => {
+
+  //         this.resetForm();
+
+  //         this.loadTasks();
+
+  //       });
+
+
+  //   }
+  //   else {
+
+  //     this.service.createTask(
+  //       this.projectId,
+  //       data
+  //     )
+  //       .subscribe(() => {
+
+  //         this.resetForm();
+
+  //         this.loadTasks();
+
+  //       });
+
+  //   }
+
+  // }
+
   saveTask() {
 
+    const data = {
 
-  const data = {
+      title: this.title,
 
-    title: this.title,
+      description: this.description,
 
-    description: this.description,
+      priority: this.priority,
 
-    priority: this.priority,
+      status: this.status,
 
-    status: this.status,
+      dueDate: this.dueDate
 
-    dueDate: this.dueDate
+    };
 
-  };
+    if (this.editMode) {
+
+      this.service.updateTask(this.selectedTaskId, data).subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Task updated successfully.',
+            'Success'
+          );
+
+          this.resetForm();
+          this.loadTasks();
+
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Update failed.',
+            'Error'
+          );
+
+        }
+
+      });
+
+    }
+    else {
+
+      this.service.createTask(
+        this.projectId,
+        data
+      ).subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Task created successfully.',
+            'Success'
+          );
+
+          this.resetForm();
+          this.loadTasks();
+
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Creation failed.',
+            'Error'
+          );
+
+        }
+
+      });
+
+    }
+
+  }
 
 
-  if(this.editMode)
-  {
+  editTask(task: any) {
 
-    this.service.updateTask(
-      this.selectedTaskId,
-      data
-    )
-    .subscribe(()=>{
+    this.editMode = true;
 
-      this.resetForm();
 
-      this.loadTasks();
+    this.selectedTaskId = task.id;
 
-    });
+
+    this.title = task.title;
+
+    this.description = task.description;
+
+    this.priority = task.priority;
+
+    this.status = task.status;
+
+    this.dueDate = task.dueDate.substring(0, 10);
 
 
   }
-  else
-  {
 
-    this.service.createTask(
-      this.projectId,
-      data
-    )
-    .subscribe(()=>{
+  resetForm() {
 
-      this.resetForm();
+    this.title = '';
 
-      this.loadTasks();
+    this.description = '';
 
-    });
+    this.priority = 2;
+
+    this.status = 1;
+
+    this.dueDate = '';
+
+    this.editMode = false;
+
+    this.selectedTaskId = 0;
 
   }
 
-}
+  cancelEdit() {
 
+    this.resetForm();
 
-editTask(task:any)
-{
-
-  this.editMode = true;
-
-
-  this.selectedTaskId = task.id;
-
-
-  this.title = task.title;
-
-  this.description = task.description;
-
-  this.priority = task.priority;
-
-  this.status = task.status;
-
-  this.dueDate = task.dueDate.substring(0,10);
-
-
-}
-
-resetForm()
-{
-
-  this.title = '';
-
-  this.description = '';
-
-  this.priority = 2;
-
-  this.status = 1;
-
-  this.dueDate = '';
-
-  this.editMode = false;
-
-  this.selectedTaskId = 0;
-
-}
-
-cancelEdit()
-{
-
-  this.resetForm();
-
-}
+  }
 
   updateStatus(
     task: any,
@@ -231,6 +304,35 @@ cancelEdit()
 
       });
 
+
+  }
+
+  confirmDelete() {
+
+    this.service.deleteTask(this.selectedTaskId)
+      .subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Task deleted successfully.',
+            'Success'
+          );
+
+          this.loadTasks();
+
+        },
+
+        error: () => {
+
+          this.toastr.error(
+            'Failed to delete task.',
+            'Error'
+          );
+
+        }
+
+      });
 
   }
 
